@@ -8,280 +8,404 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import Icon from '@/components/ui/icon';
 
-interface Idea {
-  id: number;
-  title: string;
-  description: string;
-  author: string;
-  category: string;
-  votes: number;
-  status: 'new' | 'review' | 'approved' | 'rejected';
-}
-
 const Index = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [newIdea, setNewIdea] = useState({
-    title: '',
-    description: '',
-    author: '',
-    category: ''
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    material: '',
+    description: ''
   });
 
-  const [ideas, setIdeas] = useState<Idea[]>([
+  const materials = [
     {
-      id: 1,
-      title: "Мобильное приложение для учета времени",
-      description: "Создать простое приложение для трекинга времени работы сотрудников с возможностью экспорта отчетов",
-      author: "Анна К.",
-      category: "Технологии",
-      votes: 12,
-      status: 'approved'
+      title: "Металл",
+      description: "Сталь, алюминий, нержавейка, титан",
+      icon: "Zap",
+      features: ["Высокая точность", "Чистый рез", "Без деформации"]
     },
     {
-      id: 2,
-      title: "Система внутренних коммуникаций",
-      description: "Внедрить платформу для улучшения коммуникации между отделами компании",
-      author: "Михаил С.",
-      category: "Процессы",
-      votes: 8,
-      status: 'review'
+      title: "Цветные металлы",
+      description: "Медь, латунь, бронза",
+      icon: "Palette",
+      features: ["Идеальная кромка", "Минимальные отходы", "Сложные формы"]
     },
     {
-      id: 3,
-      title: "Программа корпоративного обучения",
-      description: "Запустить программу внутреннего обучения сотрудников новым технологиям",
-      author: "Елена В.",
-      category: "HR",
-      votes: 15,
-      status: 'new'
+      title: "Тугоплавкие металлы",
+      description: "Вольфрам, молибден, тантал",
+      icon: "Flame",
+      features: ["Высокие температуры", "Прецизионная обработка", "Качество"]
+    },
+    {
+      title: "Дерево",
+      description: "Фанера, МДФ, массив дерева",
+      icon: "TreePine",
+      features: ["Гладкие края", "Быстрая резка", "Художественные изделия"]
+    },
+    {
+      title: "Керамика",
+      description: "Техническая и художественная керамика",
+      icon: "CircleDot",
+      features: ["Точные отверстия", "Сложная геометрия", "Без сколов"]
+    },
+    {
+      title: "Стекло",
+      description: "Закаленное, органическое стекло",
+      icon: "Square",
+      features: ["Ровный срез", "Полированные края", "Любая толщина"]
+    },
+    {
+      title: "Полимеры",
+      description: "Акрил, поликарбонат, пластик",
+      icon: "Layers",
+      features: ["Герметичный рез", "Сложные детали", "Серийное производство"]
     }
-  ]);
+  ];
 
-  const filteredIdeas = ideas.filter(idea =>
-    idea.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    idea.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    idea.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const advantages = [
+    {
+      icon: "Target",
+      title: "Высокая точность",
+      description: "Точность резки до ±0.05 мм"
+    },
+    {
+      icon: "Gauge",
+      title: "Любая сложность",
+      description: "Выполняем изделия любой геометрии"
+    },
+    {
+      icon: "Clock",
+      title: "Быстрые сроки",
+      description: "Изготовление от 1 дня"
+    },
+    {
+      icon: "Shield",
+      title: "Гарантия качества",
+      description: "100% контроль качества продукции"
+    }
+  ];
 
-  const handleSubmitIdea = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (newIdea.title && newIdea.description && newIdea.author) {
-      const idea: Idea = {
-        id: ideas.length + 1,
-        ...newIdea,
-        votes: 0,
-        status: 'new'
-      };
-      setIdeas([idea, ...ideas]);
-      setNewIdea({ title: '', description: '', author: '', category: '' });
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'new': return 'border-gray-200 bg-gray-50';
-      case 'review': return 'border-yellow-200 bg-yellow-50';
-      case 'approved': return 'border-green-200 bg-green-50';
-      case 'rejected': return 'border-red-200 bg-red-50';
-      default: return 'border-gray-200 bg-white';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'new': return 'Новая';
-      case 'review': return 'На рассмотрении';
-      case 'approved': return 'Одобрена';
-      case 'rejected': return 'Отклонена';
-      default: return status;
-    }
+    console.log('Заказ отправлен:', formData);
+    // Здесь будет отправка формы
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-100 bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-7xl mx-auto px-6 py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-3xl font-bold text-black">БАНК ИДЕЙ</h1>
-              <p className="text-gray-600 mt-1">Платформа для сбора и развития инновационных предложений</p>
+              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                ЛАЗЕРНАЯ РЕЗКА
+                <span className="block text-blue-400">ВЫСОКОЙ ТОЧНОСТИ</span>
+              </h1>
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                Профессиональная лазерная резка металла, дерева, керамики, стекла и полимеров. 
+                Высокое качество, точность и скорость выполнения заказов.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-3">
+                  ЗАКАЗАТЬ РЕЗКУ
+                </Button>
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-slate-900 text-lg px-8 py-3">
+                  СМОТРЕТЬ РАБОТЫ
+                </Button>
+              </div>
             </div>
-            <div className="flex items-center gap-4">
-              <Icon name="Lightbulb" size={32} className="text-black" />
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="w-80 h-80 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center">
+                  <Icon name="Zap" size={120} className="text-white" />
+                </div>
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center">
+                  <Icon name="Sparkles" size={32} className="text-slate-900" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Services Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">МАТЕРИАЛЫ ДЛЯ РЕЗКИ</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Работаем с широким спектром материалов, обеспечивая высокое качество резки для каждого типа
+            </p>
+          </div>
           
-          {/* Form Section */}
-          <div className="lg:col-span-1">
-            <Card className="border-2 border-black bg-white">
-              <CardHeader className="bg-black text-white">
-                <CardTitle className="flex items-center gap-2">
-                  <Icon name="Plus" size={20} />
-                  НОВАЯ ИДЕЯ
-                </CardTitle>
-                <CardDescription className="text-gray-300">
-                  Поделитесь своим предложением
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6">
-                <form onSubmit={handleSubmitIdea} className="space-y-4">
-                  <div>
-                    <Label htmlFor="title" className="text-black font-medium">Название</Label>
-                    <Input
-                      id="title"
-                      value={newIdea.title}
-                      onChange={(e) => setNewIdea({...newIdea, title: e.target.value})}
-                      className="mt-1 border-gray-300 focus:border-black"
-                      placeholder="Краткое описание идеи"
-                      required
-                    />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {materials.map((material, index) => (
+              <Card key={index} className="border-2 hover:border-blue-500 transition-all duration-300 hover:shadow-lg group">
+                <CardHeader className="text-center pb-4">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500 transition-colors">
+                    <Icon name={material.icon as any} size={32} className="text-blue-600 group-hover:text-white" />
                   </div>
-                  
-                  <div>
-                    <Label htmlFor="description" className="text-black font-medium">Описание</Label>
-                    <Textarea
-                      id="description"
-                      value={newIdea.description}
-                      onChange={(e) => setNewIdea({...newIdea, description: e.target.value})}
-                      className="mt-1 border-gray-300 focus:border-black min-h-24"
-                      placeholder="Подробное описание вашей идеи"
-                      required
-                    />
+                  <CardTitle className="text-xl font-bold text-slate-900">{material.title}</CardTitle>
+                  <CardDescription className="text-gray-600">{material.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {material.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <Icon name="Check" size={16} className="text-green-500" />
+                        <span className="text-sm text-gray-700">{feature}</span>
+                      </div>
+                    ))}
                   </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                  <div className="grid grid-cols-2 gap-3">
+      {/* Advantages Section */}
+      <section className="py-20 bg-slate-900 text-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">НАШИ ПРЕИМУЩЕСТВА</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Современное оборудование и опытные специалисты гарантируют отличный результат
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {advantages.map((advantage, index) => (
+              <div key={index} className="text-center group">
+                <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-500 transition-colors">
+                  <Icon name={advantage.icon as any} size={40} className="text-white" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{advantage.title}</h3>
+                <p className="text-gray-300">{advantage.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">НАШИ РАБОТЫ</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Примеры выполненных проектов различной сложности
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((item) => (
+              <Card key={item} className="overflow-hidden hover:shadow-lg transition-shadow group">
+                <div className="h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center group-hover:from-blue-100 group-hover:to-blue-200 transition-all">
+                  <Icon name="Image" size={48} className="text-gray-400 group-hover:text-blue-600" />
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-bold text-slate-900 mb-2">Проект №{item}</h3>
+                  <p className="text-gray-600 text-sm">Лазерная резка металлических деталей сложной геометрии</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            {/* Contact Form */}
+            <div>
+              <h2 className="text-4xl font-bold text-slate-900 mb-6">ЗАКАЗАТЬ РЕЗКУ</h2>
+              <p className="text-gray-600 mb-8">
+                Опишите ваш проект, и мы свяжемся с вами для обсуждения деталей и расчета стоимости
+              </p>
+              
+              <Card className="border-2">
+                <CardContent className="p-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="name" className="text-slate-900 font-medium">Имя *</Label>
+                        <Input
+                          id="name"
+                          value={formData.name}
+                          onChange={(e) => setFormData({...formData, name: e.target.value})}
+                          className="mt-1"
+                          placeholder="Ваше имя"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="phone" className="text-slate-900 font-medium">Телефон *</Label>
+                        <Input
+                          id="phone"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          className="mt-1"
+                          placeholder="+7 (999) 123-45-67"
+                          required
+                        />
+                      </div>
+                    </div>
+                    
                     <div>
-                      <Label htmlFor="author" className="text-black font-medium">Автор</Label>
+                      <Label htmlFor="email" className="text-slate-900 font-medium">Email</Label>
                       <Input
-                        id="author"
-                        value={newIdea.author}
-                        onChange={(e) => setNewIdea({...newIdea, author: e.target.value})}
-                        className="mt-1 border-gray-300 focus:border-black"
-                        placeholder="Ваше имя"
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className="mt-1"
+                        placeholder="email@example.com"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="material" className="text-slate-900 font-medium">Материал *</Label>
+                      <Input
+                        id="material"
+                        value={formData.material}
+                        onChange={(e) => setFormData({...formData, material: e.target.value})}
+                        className="mt-1"
+                        placeholder="Сталь 3мм, фанера 10мм, акрил 5мм..."
                         required
                       />
                     </div>
                     
                     <div>
-                      <Label htmlFor="category" className="text-black font-medium">Категория</Label>
-                      <Input
-                        id="category"
-                        value={newIdea.category}
-                        onChange={(e) => setNewIdea({...newIdea, category: e.target.value})}
-                        className="mt-1 border-gray-300 focus:border-black"
-                        placeholder="Тема"
+                      <Label htmlFor="description" className="text-slate-900 font-medium">Описание проекта *</Label>
+                      <Textarea
+                        id="description"
+                        value={formData.description}
+                        onChange={(e) => setFormData({...formData, description: e.target.value})}
+                        className="mt-1 min-h-24"
+                        placeholder="Опишите что нужно изготовить, размеры, количество..."
+                        required
                       />
                     </div>
-                  </div>
 
-                  <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
-                    ОТПРАВИТЬ
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Ideas Section */}
-          <div className="lg:col-span-2">
-            {/* Search */}
-            <div className="mb-6">
-              <div className="relative">
-                <Icon name="Search" size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-gray-300 focus:border-black"
-                  placeholder="Поиск идей..."
-                />
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <Card className="border border-gray-200">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-black">{ideas.length}</div>
-                  <div className="text-sm text-gray-600">Всего идей</div>
-                </CardContent>
-              </Card>
-              <Card className="border border-gray-200">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-black">{ideas.filter(i => i.status === 'approved').length}</div>
-                  <div className="text-sm text-gray-600">Одобрено</div>
-                </CardContent>
-              </Card>
-              <Card className="border border-gray-200">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-black">{ideas.filter(i => i.status === 'new').length}</div>
-                  <div className="text-sm text-gray-600">Новых</div>
+                    <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
+                      ОТПРАВИТЬ ЗАЯВКУ
+                    </Button>
+                  </form>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Ideas List */}
-            <div className="space-y-4">
-              {filteredIdeas.map((idea) => (
-                <Card key={idea.id} className={`border-2 ${getStatusColor(idea.status)} hover:shadow-md transition-shadow`}>
+            {/* Contact Info */}
+            <div>
+              <h2 className="text-4xl font-bold text-slate-900 mb-6">КОНТАКТЫ</h2>
+              
+              <div className="space-y-8">
+                <Card className="border-2">
                   <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-lg font-bold text-black leading-tight">{idea.title}</h3>
-                      <Badge variant="outline" className="border-gray-300 text-gray-700">
-                        {getStatusText(idea.status)}
-                      </Badge>
-                    </div>
-                    
-                    <p className="text-gray-700 mb-4 leading-relaxed">{idea.description}</p>
-                    
-                    <Separator className="my-4" />
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                          <Icon name="User" size={16} className="text-gray-500" />
-                          <span className="text-sm text-gray-600">{idea.author}</span>
-                        </div>
-                        {idea.category && (
-                          <div className="flex items-center gap-2">
-                            <Icon name="Tag" size={16} className="text-gray-500" />
-                            <span className="text-sm text-gray-600">{idea.category}</span>
-                          </div>
-                        )}
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Icon name="Phone" size={24} className="text-blue-600" />
                       </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-50">
-                          <Icon name="Heart" size={14} className="mr-1" />
-                          {idea.votes}
-                        </Button>
-                        <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-50">
-                          <Icon name="Archive" size={14} />
-                        </Button>
+                      <div>
+                        <h3 className="font-bold text-slate-900 mb-2">Телефон</h3>
+                        <p className="text-gray-600">+7 (999) 123-45-67</p>
+                        <p className="text-gray-600">+7 (999) 123-45-68</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
 
-            {filteredIdeas.length === 0 && (
-              <Card className="border-2 border-dashed border-gray-300">
-                <CardContent className="p-12 text-center">
-                  <Icon name="Search" size={48} className="mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">Идеи не найдены</h3>
-                  <p className="text-gray-500">Попробуйте изменить критерии поиска</p>
-                </CardContent>
-              </Card>
-            )}
+                <Card className="border-2">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Icon name="Mail" size={24} className="text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 mb-2">Email</h3>
+                        <p className="text-gray-600">info@lasercut.ru</p>
+                        <p className="text-gray-600">order@lasercut.ru</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Icon name="MapPin" size={24} className="text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 mb-2">Адрес</h3>
+                        <p className="text-gray-600">г. Москва, ул. Промышленная, 15</p>
+                        <p className="text-gray-600">Производственный комплекс</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-2">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Icon name="Clock" size={24} className="text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-slate-900 mb-2">Режим работы</h3>
+                        <p className="text-gray-600">Пн-Пт: 8:00 - 20:00</p>
+                        <p className="text-gray-600">Сб-Вс: 9:00 - 18:00</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">ЛАЗЕРНАЯ РЕЗКА</h3>
+              <p className="text-gray-300">
+                Профессиональные услуги лазерной резки с гарантией качества и соблюдением сроков
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">УСЛУГИ</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li>Резка металла</li>
+                <li>Резка дерева</li>
+                <li>Резка керамики</li>
+                <li>Резка стекла</li>
+                <li>Резка полимеров</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">КОНТАКТЫ</h3>
+              <div className="space-y-2 text-gray-300">
+                <p>📞 +7 (999) 123-45-67</p>
+                <p>✉️ info@lasercut.ru</p>
+                <p>📍 г. Москва, ул. Промышленная, 15</p>
+              </div>
+            </div>
+          </div>
+          <Separator className="my-8 bg-gray-700" />
+          <div className="text-center text-gray-400">
+            <p>&copy; 2024 Лазерная резка. Все права защищены.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
